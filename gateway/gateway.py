@@ -193,8 +193,13 @@ class MqttGateway(Application):
             tasks = await stack.enter_async_context(Tasks())
 
             # connect to daemon
+            self.token_ring.token = self._store.get("token")
             await stack.enter_async_context(self)
             await self.connect()
+
+            # immediately store token after connect
+            self._store.set("token", self.token_ring.token)
+            self._store.persist()
 
             # leave network
             if args.leave:
@@ -241,7 +246,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--leave", action="store_true")
     parser.add_argument("--reload", action="store_true")
-    parser.add_argument("--basedir", default="..")
+    parser.add_argument("--basedir", default=os.getenv("GATEWAY_BASEDIR",".."))
 
     # module specific CLI interfaces
     subparsers = parser.add_subparsers()

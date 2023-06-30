@@ -28,8 +28,9 @@ WORKDIR /opt/hass-ble-mesh
 COPY ./gateway gateway
 
 # mount config
-WORKDIR /config
-VOLUME /config
+WORKDIR /var/lib/bluetooth/mesh
+VOLUME /var/lib/bluetooth/mesh
+ENV GATEWAY_BASEDIR=/var/lib/bluetooth/mesh
 
 # run bluetooth service and bridge
 WORKDIR /opt/hass-ble-mesh/gateway

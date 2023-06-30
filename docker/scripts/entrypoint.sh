@@ -3,5 +3,5 @@
 service dbus start
 /usr/libexec/bluetooth/bluetooth-meshd &
 
-python3 gateway.py --basedir /config --reload &
+python3 gateway.py --reload &
 /bin/bash
