@@ -5,3 +5,5 @@ __pycache__/
 config.yaml
 store.yaml
 store.bak.yaml
+
+docker/config/[0-9]*
