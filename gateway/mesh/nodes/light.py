@@ -33,6 +33,12 @@ class Light(Generic):
     def supports(self, property):
         return property in self._features
 
+    async def refresh(self):
+        await self.ready.wait()
+        while True:
+            await self.get_availability()
+            await asyncio.sleep(60)
+
     async def turn_on(self):
         await self.set_onoff_unack(True, transition_time=0.5)
 
@@ -75,6 +81,17 @@ class Light(Generic):
 
         client = self._app.elements[0][models.GenericOnOffClient]
         await client.set_onoff_unack(self.unicast, self._app.app_keys[0][0], onoff, **kwargs)
+
+    async def get_availability(self):
+        client = self._app.elements[0][models.GenericOnOffClient]
+        state = await client.get_light_status([self.unicast], self._app.app_keys[0][0])
+
+        result = state[self.unicast]
+        if result is None:
+            logging.warn(f"Received invalid result {state}")
+            self.notify("availability", "offline")
+        elif not isinstance(result, BaseException):
+            self.notify("availability", "online")
 
     async def get_onoff(self):
         client = self._app.elements[0][models.GenericOnOffClient]

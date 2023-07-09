@@ -51,7 +51,6 @@ class HassMqttBridge:
 
                 # get command from topic and load message
                 command = message.topic.split("/")[-1]
-                payload = json.loads(message.payload.decode())
 
                 try:
                     # get handler from command name
@@ -60,6 +59,7 @@ class HassMqttBridge:
                     logging.warning(f"Missing handler for command {command}")
                     continue
 
+                payload = json.loads(message.payload.decode())
                 await handler(node, payload)
 
     async def config(self, node):

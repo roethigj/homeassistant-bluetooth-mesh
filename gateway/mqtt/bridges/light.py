@@ -24,6 +24,7 @@ class GenericLightBridge(HassMqttBridge):
             "object_id": node.config.require("id"),
             "command_topic": "~/set",
             "state_topic": "~/state",
+            "availability_topic": "~/availability",
             "schema": "json",
         }
 
@@ -75,3 +76,6 @@ class GenericLightBridge(HassMqttBridge):
 
     async def _notify_brightness(self, node, brightness):
         await self._state(node, brightness > 0)
+
+    async def _notify_availability(self, node, state):
+        await self._messenger.publish(self.component, node, "availability", state)

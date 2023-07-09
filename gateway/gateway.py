@@ -236,6 +236,7 @@ class MqttGateway(Application):
             # initialize all nodes
             for node in self._nodes.all():
                 tasks.spawn(self._try_bind_node(node), f"bind {node}")
+                tasks.spawn(node.refresh(), f"periodically refresh {node}")
 
             # start MQTT task
             tasks.spawn(self._messenger.run(self), "run messenger")
