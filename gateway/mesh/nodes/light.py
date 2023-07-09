@@ -4,6 +4,7 @@ import logging
 from .generic import Generic
 
 from bluetooth_mesh import models
+from bluetooth_mesh.messages import LightLightnessOpcode
 
 
 class Light(Generic):
@@ -38,6 +39,14 @@ class Light(Generic):
         while True:
             await self.get_availability()
             await asyncio.sleep(60)
+
+    def lightness_cb(self, source: int,
+            net_index: int,
+            destination,
+            message):
+        if (self.unicast == source):
+            self.notify("availability", "online")
+            self.notify(Light.BrightnessProperty, message["light_lightness_status"]["present_lightness"])
 
     async def turn_on(self):
         await self.set_onoff_unack(True, transition_time=0.5)
@@ -75,6 +84,10 @@ class Light(Generic):
             self._features.add(Light.TemperatureProperty)
             self._features.add(Light.BrightnessProperty)
             await self.get_ctl()
+
+        client = self._app.elements[0][models.LightLightnessClient]
+        client.app_message_callbacks[LightLightnessOpcode.LIGHT_LIGHTNESS_STATUS] \
+            .add(self.lightness_cb)
 
     async def set_onoff_unack(self, onoff, **kwargs):
         self.notify(Light.OnOffProperty, onoff)
