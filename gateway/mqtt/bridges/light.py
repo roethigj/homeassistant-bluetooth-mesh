@@ -58,7 +58,7 @@ class GenericLightBridge(HassMqttBridge):
         if onoff and node.supports(Light.TemperatureProperty):
             message["color_temp"] = node.retained(Light.TemperatureProperty, 100)
 
-        await self._messenger.publish(self.component, node, "state", message, retain=True)
+        await self._messenger.publish(self.component, node, "state", message)
 
     async def _mqtt_set(self, node, payload):
         if "color_temp" in payload:
