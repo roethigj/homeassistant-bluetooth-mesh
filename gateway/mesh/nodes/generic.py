@@ -6,6 +6,9 @@ from mesh.composition import Composition, Element
 
 from bluetooth_mesh import models
 
+def on_message(source, destination, app_index, message):
+    timestamp = datetime.now().strftime("%Y-%m-%d %T.%f")
+    print(f"{timestamp} {source:04x} -> {destination:04x}: {message!r}")
 
 class Generic(Node):
     """
@@ -39,7 +42,7 @@ class Generic(Node):
         Use the helper functions to retrieve information.
         """
         client = self._app.elements[0][models.ConfigClient]
-        data = await client.get_composition_data([self.unicast], net_index=0, timeout=30)
+        data = await client.get_composition_data([self.unicast], net_index=0, timeout=10)
         # TODO: multi page composition data support
         page_zero = data.get(self.unicast, {}).get("zero")
         self._composition = Composition(page_zero)

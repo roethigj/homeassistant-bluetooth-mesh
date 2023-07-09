@@ -166,12 +166,14 @@ class MqttGateway(Application):
         await client.bind(self.app_keys[0][0])
 
     async def _try_bind_node(self, node):
-        try:
-            await node.bind(self)
-            logging.info(f"Bound node {node}")
-            node.ready.set()
-        except:
-            logging.exception(f"Failed to bind node {node}")
+        while not node.ready.is_set():
+            try:
+                await node.bind(self)
+                logging.info(f"Bound node {node}")
+                node.ready.set()
+            except:
+                logging.exception(f"Failed to bind node {node}. Retry in 1 minute.")
+                await asyncio.sleep(60)
 
     def scan_result(self, rssi, data, options):
         MESH_MODULES["scan"]._scan_result(rssi, data, options)
