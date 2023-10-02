@@ -13,28 +13,24 @@ RUN apt-get -y update && apt-get -y upgrade && apt-get -y install \
     libical-dev \
     libreadline-dev
 
-# install BlueZ with mesh support
-WORKDIR /opt/build
-COPY ./docker/scripts/install-ell.sh .
-RUN sh ./install-ell.sh
+RUN apt-get -y install libell-dev bluez bluez-meshd
 
 WORKDIR /opt/build
 COPY ./docker/scripts/install-json-c.sh .
 RUN sh ./install-json-c.sh
 
-WORKDIR /opt/build
-COPY ./docker/scripts/install-bluez.sh .
-RUN sh ./install-bluez.sh
-
 # install bridge
 WORKDIR /opt/hass-ble-mesh
 COPY ./requirements.txt .
 RUN pip3 install -r requirements.txt
+
+WORKDIR /opt/hass-ble-mesh
 COPY ./gateway ./gateway
 
 # mount config
-WORKDIR /config
-VOLUME /config
+WORKDIR /var/lib/bluetooth/mesh
+VOLUME /var/lib/bluetooth/mesh
+ENV GATEWAY_BASEDIR=/var/lib/bluetooth/mesh
 
 # run bluetooth service and bridge
 WORKDIR /opt/hass-ble-mesh/gateway
