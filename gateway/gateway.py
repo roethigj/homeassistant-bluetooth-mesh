@@ -259,7 +259,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--leave", action="store_true")
     parser.add_argument("--reload", action="store_true")
-    parser.add_argument("--basedir", default="..")
+    parser.add_argument("--basedir", default=os.getenv("GATEWAY_BASEDIR",".."))
 
     # module specific CLI interfaces
     subparsers = parser.add_subparsers()
