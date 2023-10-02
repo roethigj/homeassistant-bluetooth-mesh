@@ -3,7 +3,7 @@ services:
   app:
     build: .
     volumes:
-    - /mnt/data/supervisor/homeassistant/:/var/lib/bluetooth/mesh
+    - ./config:/var/lib/bluetooth/mesh
     restart: "always"
     network_mode: "host"
     privileged: true
