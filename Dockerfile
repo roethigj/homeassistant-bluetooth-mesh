@@ -13,7 +13,7 @@ RUN apt-get -y update && apt-get -y upgrade && apt-get -y install \
     libical-dev \
     libreadline-dev
 
-RUN apt-get -y install libell-dev bluez bluez-meshd
+RUN apt-get -y install libell-dev bluez bluez-meshd mc
 
 WORKDIR /opt/build
 COPY docker/scripts/install-json-c.sh .
