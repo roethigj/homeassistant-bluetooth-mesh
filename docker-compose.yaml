@@ -4,7 +4,6 @@ services:
     build: .
     volumes:
       - /usr/share/hassio/homeassistant/hamesh/:/var/lib/bluetooth/mesh
-      - /run/dbus:/run/dbus:ro
     restart: "always"
     network_mode: "host"
     privileged: true
