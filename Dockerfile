@@ -11,9 +11,11 @@ RUN apt-get -y update && apt-get -y upgrade && apt-get -y install \
     libdbus-1-dev \
     libudev-dev \
     libical-dev \
-    libreadline-dev
-
-RUN apt-get -y install libell-dev bluez bluez-meshd
+    libreadline-dev \
+    libell-dev \
+    bluez \
+    bluez-meshd\
+    mc
 
 WORKDIR /opt/build
 COPY docker/scripts/install-json-c.sh .
