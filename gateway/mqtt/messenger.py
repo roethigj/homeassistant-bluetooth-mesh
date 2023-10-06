@@ -74,7 +74,7 @@ class HassMqttMessenger:
 
     async def run(self, app):
         async with AsyncExitStack() as stack:
-            tasks = await stack.enter_async_context(Tasks("messenger"))
+            tasks = await stack.enter_async_context(Tasks())
 
             # connect to MQTT broker
             await stack.enter_async_context(self._client)
