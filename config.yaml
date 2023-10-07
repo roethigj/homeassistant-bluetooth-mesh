@@ -1,0 +1,14 @@
+name: "hamesh"
+description: "homeassistant Bluetoth mesh"
+version: "0.1"
+slug: "hamesh"
+init: false
+services:
+  app:
+    build: .
+    volumes:
+      - ../config/hamesh/:/var/lib/bluetooth/mesh
+    restart: "always"
+    network_mode: "host"
+    privileged: true
+    tty: true
