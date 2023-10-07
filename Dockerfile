@@ -34,5 +34,5 @@ ENV GATEWAY_BASEDIR=/var/lib/bluetooth/mesh
 
 # run bluetooth service and bridge
 WORKDIR /opt/hass-ble-mesh/gateway
-COPY docker/scripts/entrypoint.sh .
-ENTRYPOINT [ "/bin/bash", "entrypoint.sh" ]
+#COPY docker/scripts/entrypoint.sh .
+ENTRYPOINT [ "/bin/bash", "run.sh" ]
