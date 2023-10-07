@@ -1,7 +1,7 @@
-name: "hamesh"
+name: "homeassistant-bluetooth-mesh"
 description: "homeassistant Bluetoth mesh"
 version: "0.1"
-slug: "hamesh"
+slug: "homeassistant-bluetooth-mesh"
 init: false
 arch:
   - aarch64
