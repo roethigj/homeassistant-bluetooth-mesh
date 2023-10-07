@@ -3,6 +3,12 @@ description: "homeassistant Bluetoth mesh"
 version: "0.1"
 slug: "hamesh"
 init: false
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
 services:
   app:
     build: .
